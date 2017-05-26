@@ -5,16 +5,21 @@ import ItemContainer from './itemContainer';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-class MenuBar extends Component {
+class AddStoryButton extends Component {
   constructor(props) {
     super(props);
+
+    this.userCutName = 'AN';
   }
 
   render() {
     return (
-      <div style={styles.mainContainer}>
+      <div className={'menuBarMainContainer'}>
         <ItemContainer isBorder={true}>
-          <div style={styles.userIcon}>{this.props.userCutName}</div>
+          <div className={'userIcon'} style={styles.userIcon}>{this.props.userCutName}</div>
+        </ItemContainer>
+        <ItemContainer isBorder={false} hovered={true}>
+          <div className={'userIcon'} style={styles.userIcon}>{this.props.userCutName}</div>
         </ItemContainer>
       </div>
     );
@@ -22,20 +27,7 @@ class MenuBar extends Component {
 }
 
 const styles = {
-  mainContainer: {
-    position: 'fixed',
-    top: 0,
-    right: 0,
-    left: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    height: 60,
-    backgroundColor: '#263238'
-  },
   userIcon: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
     backgroundColor: '#0091EA',
     display: 'flex',
     alignItems: 'center',
@@ -49,8 +41,11 @@ MenuBar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    userCutName: state.user.cutName
   };
 };
 
-export default connect(mapStateToProps)(MenuBar);
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddStoryButton);

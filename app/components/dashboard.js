@@ -1,13 +1,10 @@
 'use strict';
 
+import MenuBar from './menuBar';
 import React, {Component} from 'react';
-import DashBoard from './components/dashboard';
-import {
-  Redirect,
-  Route
-} from 'react-router-dom';
+import StoriesList from './storiesList';
 
-class App extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
@@ -15,8 +12,8 @@ class App extends Component {
   render() {
     return (
       <div style={styles.mainContainer}>
-        <Redirect to={'/dashboard'}/>
-        <Route path={'/dashboard'} component={DashBoard}/>
+        <MenuBar />
+        <StoriesList />
       </div>
     );
   }
@@ -30,4 +27,4 @@ const styles = {
   }
 };
 
-export default App;
+export default Dashboard;

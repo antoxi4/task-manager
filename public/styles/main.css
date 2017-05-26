@@ -1,5 +1,14 @@
-@font-face { font-family: Delicious; src: url('font/Bariol_Regular.otf'); }
-@font-face { font-family: Delicious; font-weight: bold; src: url('font/Bariol_Bold.otf');}
+@font-face {
+  font-family: Bariol;
+  src: url('/font/Bariol_Regular.otf');
+}
+
+@font-face {
+  font-family: Bariol;
+  font-weight: bold;
+  src: url('/font/Bariol_Bold.otf');
+}
+
 body {
   font-family: 'Bariol';
   width: 100vw;
@@ -8,8 +17,8 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  color: #37474F;
-  font-size: 16px;
+  color: #ECEFF1;
+  font-size: 10px;
   background-color: #ECEFF1;
 }
 
@@ -18,66 +27,49 @@ body {
   display: flex;
 }
 
-.appMainContainer {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 1px solid rgba(81, 203, 238, 1);
 }
 
-.menuBarMainContainer {
-  display: flex;
-  flex-direction: column;
-  background-color: #263238;
-  width: 60px;
+.cardMoreButton:hover {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
-@media screen and (max-device-width: 800px) {
-  .appMainContainer {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .menuBarMainContainer {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 10vh;
-  }
+.text {
+  word-wrap: break-word;
 }
 
-
-
-
-
-.todo-item {
-  display: flex;
-  height: 60px;
-  width: 60px;
-  margin-right: 10px;
-  justify-content: center;
-  align-items: center;
-  background-color: #c05b4d;
+.taskContainer {
+  margin-top: 10px;
 }
 
 .example-enter {
-  opacity: 0.01;
-  width: 0px;
+  margin-top: 0px;
+  max-height: 0px;
+  overflow: hidden;
 }
 
 .example-enter.example-enter-active {
-  opacity: 1;
-  width: 60px;
+  margin-top: 10px;
+  max-height: 80px;
   transition: 700ms;
+  overflow: hidden;
 }
 
 .example-leave {
-  opacity: 1;
-  width: 60px;
+  margin-top: 10px;
+  max-height: 80px;
+  overflow: hidden;
 }
 
 .example-leave.example-leave-active {
-  opacity: 0.01;
-  width: 0px;
+  margin-top: 0px;
+  max-height: 0px;
   transition: 700ms;
+  overflow: hidden;
+}
+
+@media screen and (max-device-width: 800px) {
+
 }
