@@ -26,7 +26,7 @@ export function addTask(storyIndex, taskDescription) {
     const randomColor = getRandomColor();
     let stories = JSON.parse(JSON.stringify(getState().story.stories));
 
-    stories[storyIndex].tasks.push({
+    stories[storyIndex].tasks.unshift({
       id: Date.now(),
       description: taskDescription,
       color: randomColor,
@@ -41,8 +41,8 @@ export function setDraggeStoryId(storyId) {
   return storeData({draggedStoryId: storyId});
 }
 
-export function clearDraggedStoryId() {
-  return storeData({draggedStoryId: ''});
+export function setDraggeTaskId(taskId) {
+  return storeData({draggedTaskId: taskId});
 }
 
 export function moveStoryAtIndex(storyIndex, newIndex) {

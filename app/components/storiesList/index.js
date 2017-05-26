@@ -21,14 +21,15 @@ class StoriesList extends Component {
       return (
         <StoryCard
           key={`story_${story.id}`}
-          draggedStoryId={this.props.draggedStoryId}
-          moveTaskToStory={this.props.moveTaskToStory}
-          addStoryTask={this.props.addStoryTask}
-          setDraggeStoryId={this.props.setDraggeStoryId}
-          moveStoryAtIndex={this.props.moveStoryAtIndex}
-          clearDraggedStoryId={this.props.clearDraggedStoryId}
-          storyIndex={idx}
           story={story}
+          storyIndex={idx}
+          draggedTaskId={this.props.draggedTaskId}
+          draggedStoryId={this.props.draggedStoryId}
+          addStoryTask={this.props.addStoryTask}
+          moveTaskToStory={this.props.moveTaskToStory}
+          moveStoryAtIndex={this.props.moveStoryAtIndex}
+          setDraggeTaskId={this.props.setDraggeTaskId}
+          setDraggeStoryId={this.props.setDraggeStoryId}
         />
       );
     });
@@ -45,22 +46,12 @@ class StoriesList extends Component {
   }
 }
 
-StoriesList.propTypes = {
-  stories: PropTypes.array.isRequired,
-  moveTaskToStory: PropTypes.func.isRequired,
-  addStoryTask: PropTypes.func.isRequired,
-  setDraggeStoryId: PropTypes.func.isRequired,
-  draggedStoryId: PropTypes.string.isRequired,
-  moveStoryAtIndex: PropTypes.func.isRequired,
-  clearDraggedStoryId: PropTypes.func.isRequired
-};
-
 const styles = {
   mainContainer: {
     display: 'flex',
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    flex: 1,
     marginTop: 60,
     paddingTop: 20,
     paddingLeft: '5%',
@@ -68,10 +59,22 @@ const styles = {
   }
 };
 
+StoriesList.propTypes = {
+  stories: PropTypes.array.isRequired,
+  moveTaskToStory: PropTypes.func.isRequired,
+  addStoryTask: PropTypes.func.isRequired,
+  setDraggeStoryId: PropTypes.func.isRequired,
+  setDraggeTaskId: PropTypes.func.isRequired,
+  draggedStoryId: PropTypes.string.isRequired,
+  moveStoryAtIndex: PropTypes.func.isRequired,
+  draggedTaskId: PropTypes.string.isRequired
+};
+
 const mapStateToProps = state => {
   return {
     stories: state.story.stories,
-    draggedStoryId: state.story.draggedStoryId
+    draggedStoryId: state.story.draggedStoryId,
+    draggedTaskId: state.story.draggedTaskId
   };
 };
 
@@ -89,12 +92,12 @@ const mapDispatchToProps = dispatch => {
       dispatch(StoryActions.setDraggeStoryId(storyId));
     },
 
-    moveStoryAtIndex: (storyIndex, newIndex) => {
-      dispatch(StoryActions.moveStoryAtIndex(storyIndex, newIndex));
+    setDraggeTaskId: taskId => {
+      dispatch(StoryActions.setDraggeTaskId(taskId));
     },
 
-    clearDraggedStoryId: () => {
-      dispatch(StoryActions.clearDraggedStoryId());
+    moveStoryAtIndex: (storyIndex, newIndex) => {
+      dispatch(StoryActions.moveStoryAtIndex(storyIndex, newIndex));
     }
   };
 };

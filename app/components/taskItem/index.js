@@ -13,9 +13,10 @@ class TaskItem extends Component {
 
   render() {
     const {connectDragSource, connectDropTarget} = this.props;
+    const isTaskDragged = this.props.draggedTaskId === this.props.task.id;
 
     return connectDropTarget(connectDragSource(
-      <div style={styles.taskContainer} className={'taskContainer'}>
+      <div style={{...styles.taskContainer, ...{opacity: isTaskDragged ? 0 : 1}}} className={'taskContainer'}>
         <div style={{...styles.taskMarker, ...{backgroundColor: this.props.task.color}}}/>
         <div style={styles.taskDescription}>
           {this.props.task.description}
@@ -24,40 +25,6 @@ class TaskItem extends Component {
     ));
   }
 }
-
-const itemSource = {
-  beginDrag(props) {
-    return {
-      storyIndex: props.storyIndex,
-      taskIndex: props.index
-    };
-  }
-};
-
-const collect = connect => {
-  return {
-    connectDragSource: connect.dragSource()
-  };
-};
-
-const taskTarget = {
-  drop(props, monitor) {
-    if (props.storyIndex != monitor.getItem().storyIndex) {
-      props.moveTaskToStory(
-        monitor.getItem().storyIndex,
-        props.storyIndex,
-        monitor.getItem().taskIndex
-      );
-    }
-  }
-};
-
-const taskCollectTarget = (connect, monitor) => {
-  return {
-    connectDropTarget: connect.dropTarget(),
-    canDrop: monitor.canDrop()
-  };
-};
 
 const styles = {
   taskContainer: {
@@ -87,12 +54,57 @@ const styles = {
 
 TaskItem.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
+  connectDropTarget: PropTypes.func.isRequired,
+  setDraggeTaskId: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   storyIndex: PropTypes.number.isRequired,
+  draggedTaskId: PropTypes.string.isRequired,
   task: PropTypes.object.isRequired
+};
+
+const taskSource = {
+  beginDrag(props) {
+    return {
+      storyIndex: props.storyIndex,
+      taskIndex: props.index,
+      taskId: props.task.id
+    };
+  }
+};
+
+const taskCollectSource = connect => {
+  return {
+    connectDragSource: connect.dragSource()
+  };
+};
+
+const taskTarget = {
+  hover(props, monitor) {
+    const dragTaskId = monitor.getItem().taskId;
+
+    props.setDraggeTaskId(dragTaskId);
+  },
+
+  drop(props, monitor) {
+    if (props.storyIndex != monitor.getItem().storyIndex) {
+      props.setDraggeTaskId('');
+      props.moveTaskToStory(
+        monitor.getItem().storyIndex,
+        props.storyIndex,
+        monitor.getItem().taskIndex
+      );
+    }
+  }
+};
+
+const taskCollectTarget = (connect, monitor) => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    canDrop: monitor.canDrop()
+  };
 };
 
 export default compose(
   DropTarget(DND_ITEMS.TASK, taskTarget, taskCollectTarget),
-  DragSource(DND_ITEMS.TASK, itemSource, collect)
+  DragSource(DND_ITEMS.TASK, taskSource, taskCollectSource)
 )(TaskItem);

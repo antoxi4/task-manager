@@ -15,15 +15,22 @@ class StoryCard extends Component {
 
   render() {
     const {connectDropTarget, connectDragSource} = this.props;
+    const isStoryDragged = this.props.story.id === this.props.draggedStoryId;
 
     return connectDropTarget(connectDragSource(
-      <div style={{...styles.mainContainer, ...{opacity: this.props.story.id === this.props.draggedStoryId ? 0 : 1}}}>
+      <div style={{...styles.mainContainer, ...{opacity: isStoryDragged ? 0 : 1}}}>
         <div style={{...styles.cardHeader, ...{backgroundColor: this.props.story.color}}}>
           <div style={styles.cardName}>{this.props.story.name}</div>
           <div style={styles.moreButton} className={'cardMoreButton'} />
         </div>
         <AddTask storyIndex={this.props.storyIndex} addStoryTask={this.props.addStoryTask} />
-        <TasksList moveTaskToStory={this.props.moveTaskToStory} tasks={this.props.story.tasks} storyIndex={this.props.storyIndex} />
+        <TasksList
+          tasks={this.props.story.tasks}
+          storyIndex={this.props.storyIndex}
+          draggedTaskId={this.props.draggedTaskId}
+          setDraggeTaskId={this.props.setDraggeTaskId}
+          moveTaskToStory={this.props.moveTaskToStory}
+        />
       </div>
     ));
   }
@@ -69,12 +76,15 @@ const styles = {
 StoryCard.propTypes = {
   story: PropTypes.object.isRequired,
   storyIndex: PropTypes.number.isRequired,
-  moveTaskToStory: PropTypes.func.isRequired,
-  setDraggeStoryId: PropTypes.func.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
-  addStoryTask: PropTypes.func.isRequired,
+  draggedTaskId: PropTypes.string.isRequired,
   draggedStoryId: PropTypes.string.isRequired,
-  moveStoryAtIndex: PropTypes.func.isRequired
+  addStoryTask: PropTypes.func.isRequired,
+  moveTaskToStory: PropTypes.func.isRequired,
+  moveStoryAtIndex: PropTypes.func.isRequired,
+  setDraggeStoryId: PropTypes.func.isRequired,
+  setDraggeTaskId: PropTypes.func.isRequired,
+  connectDropTarget: PropTypes.func.isRequired,
+  connectDragSource: PropTypes.func.isRequired
 };
 
 const storyTarget = {
@@ -82,24 +92,20 @@ const storyTarget = {
     const dragIndex = monitor.getItem().storyIndex;
     const hoverIndex = props.storyIndex;
     const dragId = monitor.getItem().story.id;
-    const hoverId = props.story.id;
-
 
     if (dragIndex === hoverIndex && !props.draggedStoryId.length) {
       props.setDraggeStoryId(dragId);
       return;
     }
 
-    if (props.draggedStoryId.length && dragId != hoverId && dragIndex != hoverIndex) {
+    if (props.draggedStoryId.length && dragIndex != hoverIndex) {
       props.moveStoryAtIndex(dragIndex, hoverIndex);
       monitor.getItem().storyIndex = hoverIndex;
     }
   },
 
-  drop(props, monitor) {
-    const dragIndex = monitor.getItem().storyIndex;
-    const hoverIndex = props.storyIndex;
-    props.clearDraggedStoryId();
+  drop(props) {
+    props.setDraggeStoryId('');
   }
 };
 
@@ -112,7 +118,7 @@ const storyCollectTarget = (connect, monitor) => {
 
 
 const storySource = {
-  beginDrag(props, monitor) {
+  beginDrag(props) {
     return {
       storyIndex: props.storyIndex,
       story: props.story
@@ -120,10 +126,13 @@ const storySource = {
   }
 };
 
-const storyCollect = connect => {
+const storyCollectSource = connect => {
   return {
     connectDragSource: connect.dragSource()
   };
 };
 
-export default compose(DropTarget(DND_ITEMS.STORY, storyTarget, storyCollectTarget), DragSource(DND_ITEMS.STORY, storySource, storyCollect))(StoryCard);
+export default compose(
+  DropTarget(DND_ITEMS.STORY, storyTarget, storyCollectTarget),
+  DragSource(DND_ITEMS.STORY, storySource, storyCollectSource)
+)(StoryCard);

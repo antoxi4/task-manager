@@ -13,5 +13,6 @@ export default {
     {id: 'test233', name: 'IDEAS/TASKS2', color: '#4FC3F7', tasks: [{id: 'test9', description: 'Do it3', color: '#4FC3F7', completed: false}]}
   ],
 
-  draggedStoryId: ''
+  draggedStoryId: '',
+  draggedTaskId: ''
 };
