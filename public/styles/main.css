@@ -1,0 +1,83 @@
+@font-face { font-family: Delicious; src: url('font/Bariol_Regular.otf'); }
+@font-face { font-family: Delicious; font-weight: bold; src: url('font/Bariol_Bold.otf');}
+body {
+  font-family: 'Bariol';
+  width: 100vw;
+  height: 100vh;
+  min-width: 800px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #37474F;
+  font-size: 16px;
+  background-color: #ECEFF1;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+}
+
+.appMainContainer {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.menuBarMainContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #263238;
+  width: 60px;
+}
+
+@media screen and (max-device-width: 800px) {
+  .appMainContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .menuBarMainContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 10vh;
+  }
+}
+
+
+
+
+
+.todo-item {
+  display: flex;
+  height: 60px;
+  width: 60px;
+  margin-right: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: #c05b4d;
+}
+
+.example-enter {
+  opacity: 0.01;
+  width: 0px;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  width: 60px;
+  transition: 700ms;
+}
+
+.example-leave {
+  opacity: 1;
+  width: 60px;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  width: 0px;
+  transition: 700ms;
+}
