@@ -6,8 +6,6 @@ import {compose} from 'redux';
 import PropTypes from 'prop-types';
 import {DND_ITEMS} from '../../constants';
 
-var test = 1;
-
 class TaskItem extends Component {
   constructor(props) {
     super(props);
@@ -58,8 +56,8 @@ TaskItem.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
+  storyId: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  storyIndex: PropTypes.number.isRequired,
   draggedTaskId: PropTypes.string.isRequired,
   task: PropTypes.object.isRequired
 };
@@ -67,7 +65,7 @@ TaskItem.propTypes = {
 const taskSource = {
   beginDrag(props) {
     return {
-      storyIndex: props.storyIndex,
+      storyId: props.storyId,
       taskIndex: props.index,
       taskId: props.task.id
     };
@@ -103,16 +101,15 @@ const taskTarget = {
 
     if (!isHoveredSelf && props.draggedTaskId.length) {
       props.moveTask(
-        monitor.getItem().storyIndex,
-        props.storyIndex,
+        monitor.getItem().storyId,
+        props.storyId,
         draggedTaskIndex,
         hoveredTaskIndex
       );
 
       monitor.getItem().taskIndex = hoveredTaskIndex;
-      monitor.getItem().storyIndex = props.storyIndex;
+      monitor.getItem().storyId = props.storyId;
     }
-
   }
 };
 

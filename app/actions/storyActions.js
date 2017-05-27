@@ -11,6 +11,10 @@ Array.prototype.clone = function() {
     return JSON.parse(JSON.stringify(this));
 };
 
+function cloneObject(object) {
+  return JSON.parse(JSON.stringify(object));
+}
+
 function getRandomColor() {
   const colorsCount = COLORS.length - 1;
   const randomColorNumber = Math.floor(Math.random() * (colorsCount - 0 + 1)) + 0;
@@ -25,19 +29,19 @@ function storeData(data) {
   };
 }
 
-export function addTask(storyIndex, taskDescription) {
+export function addTask(storyId, taskDescription) {
   return (dispatch, getState) => {
     const randomColor = getRandomColor();
-    let stories = getState().story.stories.clone();
+    let tasks = cloneObject(getState().story.tasks);
 
-    stories[storyIndex].tasks.unshift({
+    tasks[storyId].unshift({
       id: Date.now().toString(),
       description: taskDescription,
       color: randomColor,
       completed: false
     });
 
-    return dispatch(storeData({stories}));
+    return dispatch(storeData({tasks}));
   };
 }
 
@@ -55,25 +59,23 @@ export function moveStoryAtIndex(storyIndex, newIndex) {
 
     stories.move(storyIndex, newIndex);
 
-    return dispatch(storeData({
-      stories
-    }));
+    return dispatch(storeData({stories}));
   };
 }
 
-export function moveTask(prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex) {
+export function moveTask(prevStoryId, nextStoryId, taskIndex, hoveredTaskIndex) {
   return (dispatch, getState) => {
-    let stories = getState().story.stories.clone();
-    const isMovingInsideOneStory = prevStoryIndex === nextStoryIndex;
+    let tasks = cloneObject(getState().story.tasks);
+    const isMovingInsideOneStory = prevStoryId === nextStoryId;
 
     if (isMovingInsideOneStory) {
-      stories[prevStoryIndex].tasks.move(taskIndex, hoveredTaskIndex);
+      tasks[prevStoryId].move(taskIndex, hoveredTaskIndex);
     } else {
-      const task = stories[prevStoryIndex].tasks.splice(taskIndex, 1);
+      const task = tasks[prevStoryId].splice(taskIndex, 1);
 
-      stories[nextStoryIndex].tasks.splice(hoveredTaskIndex, 0, task[0]);
+      tasks[nextStoryId].splice(hoveredTaskIndex, 0, task[0]);
     }
 
-    return dispatch(storeData({stories}));
+    return dispatch(storeData({tasks}));
   };
 }

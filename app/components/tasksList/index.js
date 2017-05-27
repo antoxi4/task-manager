@@ -1,8 +1,10 @@
 'use strict';
 
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import TaskItem from '../taskItem';
+import {StoryActions} from '../../actions';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class TasksList extends Component {
@@ -14,12 +16,12 @@ class TasksList extends Component {
 
   getStoryTasks() {
     return this.props.tasks.map((task, idx) => {
-      // console.warn('TASK', task);
       return (
         <TaskItem
           key={`task_${task.id}`}
           task={task}
           index={idx}
+          storyId={this.props.storyId}
           storyIndex={this.props.storyIndex}
           draggedTaskId={this.props.draggedTaskId}
           moveTask={this.props.moveTask}
@@ -30,7 +32,6 @@ class TasksList extends Component {
   }
 
   render() {
-    // console.warn('TASKS', this.props.tasks);
     const tasks = this.getStoryTasks();
 
     return (
@@ -55,6 +56,7 @@ const styles = {
 };
 
 TasksList.propTypes = {
+  storyId: PropTypes.string.isRequired,
   moveTask: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
   storyIndex: PropTypes.number.isRequired,
@@ -62,4 +64,23 @@ TasksList.propTypes = {
   draggedTaskId: PropTypes.string.isRequired
 };
 
-export default TasksList;
+const mapStateToProps = (state, props) => {
+  return {
+    tasks: state.story.tasks[props.storyId],
+    draggedTaskId: state.story.draggedTaskId
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    moveTask: (prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex) => {
+      dispatch(StoryActions.moveTask(prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex));
+    },
+
+    setDraggeTaskId: taskId => {
+      dispatch(StoryActions.setDraggeTaskId(taskId));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TasksList);

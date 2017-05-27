@@ -23,12 +23,9 @@ class StoriesList extends Component {
           key={`story_${story.id}`}
           story={story}
           storyIndex={idx}
-          draggedTaskId={this.props.draggedTaskId}
           draggedStoryId={this.props.draggedStoryId}
-          addStoryTask={this.props.addStoryTask}
-          moveTask={this.props.moveTask}
+          addTask={this.props.addTask}
           moveStoryAtIndex={this.props.moveStoryAtIndex}
-          setDraggeTaskId={this.props.setDraggeTaskId}
           setDraggeStoryId={this.props.setDraggeStoryId}
         />
       );
@@ -61,13 +58,10 @@ const styles = {
 
 StoriesList.propTypes = {
   stories: PropTypes.array.isRequired,
-  moveTask: PropTypes.func.isRequired,
-  addStoryTask: PropTypes.func.isRequired,
+  addTask: PropTypes.func.isRequired,
   setDraggeStoryId: PropTypes.func.isRequired,
-  setDraggeTaskId: PropTypes.func.isRequired,
   draggedStoryId: PropTypes.string.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
-  draggedTaskId: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => {
@@ -80,20 +74,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    moveTask: (prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex) => {
-      dispatch(StoryActions.moveTask(prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex));
-    },
-
-    addStoryTask: (storyIndex, taskDescription) => {
-      dispatch(StoryActions.addTask(storyIndex, taskDescription));
+    addTask: (storyId, taskDescription) => {
+      dispatch(StoryActions.addTask(storyId, taskDescription));
     },
 
     setDraggeStoryId: storyId => {
       dispatch(StoryActions.setDraggeStoryId(storyId));
-    },
-
-    setDraggeTaskId: taskId => {
-      dispatch(StoryActions.setDraggeTaskId(taskId));
     },
 
     moveStoryAtIndex: (storyIndex, newIndex) => {

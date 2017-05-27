@@ -23,14 +23,8 @@ class StoryCard extends Component {
           <div style={styles.cardName}>{this.props.story.name}</div>
           <div style={styles.moreButton} className={'cardMoreButton'} />
         </div>
-        <AddTask storyIndex={this.props.storyIndex} addStoryTask={this.props.addStoryTask} />
-        <TasksList
-          tasks={this.props.story.tasks}
-          storyIndex={this.props.storyIndex}
-          draggedTaskId={this.props.draggedTaskId}
-          setDraggeTaskId={this.props.setDraggeTaskId}
-          moveTask={this.props.moveTask}
-        />
+        <AddTask storyId={this.props.story.id} addTask={this.props.addTask} />
+        <TasksList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
       </div>
     ));
   }
@@ -76,13 +70,10 @@ const styles = {
 StoryCard.propTypes = {
   story: PropTypes.object.isRequired,
   storyIndex: PropTypes.number.isRequired,
-  draggedTaskId: PropTypes.string.isRequired,
   draggedStoryId: PropTypes.string.isRequired,
-  addStoryTask: PropTypes.func.isRequired,
-  moveTask: PropTypes.func.isRequired,
+  addTask: PropTypes.func.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
   setDraggeStoryId: PropTypes.func.isRequired,
-  setDraggeTaskId: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired
 };
@@ -103,10 +94,6 @@ const storyTarget = {
       props.moveStoryAtIndex(dragIndex, hoverIndex);
       monitor.getItem().storyIndex = hoverIndex;
     }
-  },
-
-  drop(props) {
-
   }
 };
 

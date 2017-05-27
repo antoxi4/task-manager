@@ -18,7 +18,7 @@ class AddTask extends Component {
       const {taskDescription} = this.state;
 
       this.setState({taskDescription: ''}, () => {
-        this.props.addStoryTask(this.props.storyIndex, taskDescription);
+        this.props.addTask(this.props.storyId, taskDescription);
       });
     }
   }
@@ -49,8 +49,8 @@ const styles = {
 };
 
 AddTask.propTypes = {
-  storyIndex: PropTypes.number.isRequired,
-  addStoryTask: PropTypes.func.isRequired
+  storyId: PropTypes.string.isRequired,
+  addTask: PropTypes.func.isRequired
 };
 
 export default AddTask;
