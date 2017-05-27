@@ -45,23 +45,16 @@ export function addTask(storyId, taskDescription) {
   };
 }
 
-export function setDraggeStoryId(storyId) {
-  return storeData({draggedStoryId: storyId});
-}
-
-export function setDraggeTaskId(taskId) {
-  return storeData({draggedTaskId: taskId});
-}
-
-export function moveStoryAtIndex(storyIndex, newIndex) {
+export function deleteTask(storyId, taskIndex) {
   return (dispatch, getState) => {
-    let stories = getState().story.stories.clone();
+    let tasks = cloneObject(getState().story.tasks);
 
-    stories.move(storyIndex, newIndex);
+    tasks[storyId].splice(taskIndex, 1);
 
-    return dispatch(storeData({stories}));
+    return dispatch(storeData({tasks}));
   };
 }
+
 
 export function moveTask(prevStoryId, nextStoryId, taskIndex, hoveredTaskIndex) {
   return (dispatch, getState) => {
@@ -77,5 +70,23 @@ export function moveTask(prevStoryId, nextStoryId, taskIndex, hoveredTaskIndex) 
     }
 
     return dispatch(storeData({tasks}));
+  };
+}
+
+export function setDraggeStoryId(storyId) {
+  return storeData({draggedStoryId: storyId});
+}
+
+export function setDraggeTaskId(taskId) {
+  return storeData({draggedTaskId: taskId});
+}
+
+export function moveStoryAtIndex(storyIndex, newIndex) {
+  return (dispatch, getState) => {
+    let stories = getState().story.stories.clone();
+
+    stories.move(storyIndex, newIndex);
+
+    return dispatch(storeData({stories}));
   };
 }

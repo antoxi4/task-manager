@@ -25,6 +25,7 @@ class TasksList extends Component {
           storyIndex={this.props.storyIndex}
           draggedTaskId={this.props.draggedTaskId}
           moveTask={this.props.moveTask}
+          deleteTask={this.props.deleteTask}
           setDraggeTaskId={this.props.setDraggeTaskId}
         />
       );
@@ -58,6 +59,7 @@ const styles = {
 TasksList.propTypes = {
   storyId: PropTypes.string.isRequired,
   moveTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
   storyIndex: PropTypes.number.isRequired,
   tasks: PropTypes.array.isRequired,
@@ -80,6 +82,10 @@ const mapDispatchToProps = dispatch => {
     setDraggeTaskId: taskId => {
       dispatch(StoryActions.setDraggeTaskId(taskId));
     },
+
+    deleteTask: (storyId, taskIndex) => {
+      dispatch(StoryActions.deleteTask(storyId, taskIndex));
+    }
   };
 };
 

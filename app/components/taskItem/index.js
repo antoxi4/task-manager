@@ -9,18 +9,44 @@ import {DND_ITEMS} from '../../constants';
 class TaskItem extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isTaskHovered: false
+    };
+
+    this.renderDeleteButton = this.renderDeleteButton.bind(this);
+  }
+
+  renderDeleteButton() {
+    return (
+      <div
+        style={styles.deleteContainer}
+        onClick={() => this.props.deleteTask(this.props.storyId, this.props.index)}
+      />
+    );
+  }
+
+  handleMouseEvent(isEnter) {
+    this.setState({isTaskHovered: isEnter});
   }
 
   render() {
     const {connectDragSource, connectDropTarget} = this.props;
     const isTaskDragged = this.props.draggedTaskId === this.props.task.id;
+    const deleteButton = this.state.isTaskHovered ? this.renderDeleteButton() : null;
 
     return connectDropTarget(connectDragSource(
-      <div style={{...styles.taskContainer, ...{opacity: isTaskDragged ? 0 : 1}}} className={'taskContainer'}>
+      <div
+        className={'taskContainer'}
+        onMouseLeave={() => this.handleMouseEvent(false)}
+        onMouseEnter={() => this.handleMouseEvent(true)}
+        style={{...styles.taskContainer, ...{opacity: isTaskDragged ? 0 : 1}}}
+      >
         <div style={{...styles.taskMarker, ...{backgroundColor: this.props.task.color}}}/>
         <div style={styles.taskDescription}>
           {this.props.task.description}
         </div>
+        {deleteButton}
       </div>
     ));
   }
@@ -32,7 +58,8 @@ const styles = {
     userSelect: 'none',
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    position: 'relative'
   },
 
   taskMarker: {
@@ -48,7 +75,20 @@ const styles = {
     flexWrap: 'no-wrap',
     color: '#90A4AE',
     fontSize: '10pt',
-    padding: '16px 15px 15px 14px'
+    padding: '16px 35px 15px 14px'
+  },
+
+  deleteContainer: {
+    display: 'flex',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    width: 35,
+    backgroundImage: 'url("/img/ic_close.png")',
+    backgroundSize: 15,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
   }
 };
 
@@ -56,6 +96,7 @@ TaskItem.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
   storyId: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   draggedTaskId: PropTypes.string.isRequired,
