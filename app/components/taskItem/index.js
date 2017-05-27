@@ -6,6 +6,8 @@ import {compose} from 'redux';
 import PropTypes from 'prop-types';
 import {DND_ITEMS} from '../../constants';
 
+var test = 1;
+
 class TaskItem extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +71,10 @@ const taskSource = {
       taskIndex: props.index,
       taskId: props.task.id
     };
+  },
+
+  endDrag(props) {
+    props.setDraggeTaskId('');
   }
 };
 
@@ -81,19 +87,32 @@ const taskCollectSource = connect => {
 const taskTarget = {
   hover(props, monitor) {
     const dragTaskId = monitor.getItem().taskId;
+    const hoverTaskId = props.task.id;
+    const draggedTaskIndex = monitor.getItem().taskIndex;
+    const hoveredTaskIndex = props.index;
+    const isHoveredSelf = props.draggedTaskId === hoverTaskId;
 
-    props.setDraggeTaskId(dragTaskId);
-  },
+    if (!props.draggedTaskId.length) {
+      props.setDraggeTaskId(dragTaskId);
+      return;
+    }
 
-  drop(props, monitor) {
-    if (props.storyIndex != monitor.getItem().storyIndex) {
-      props.setDraggeTaskId('');
-      props.moveTaskToStory(
+    if (draggedTaskIndex === hoveredTaskIndex && isHoveredSelf) {
+      return;
+    }
+
+    if (!isHoveredSelf && props.draggedTaskId.length) {
+      props.moveTask(
         monitor.getItem().storyIndex,
         props.storyIndex,
-        monitor.getItem().taskIndex
+        draggedTaskIndex,
+        hoveredTaskIndex
       );
+
+      monitor.getItem().taskIndex = hoveredTaskIndex;
+      monitor.getItem().storyIndex = props.storyIndex;
     }
+
   }
 };
 

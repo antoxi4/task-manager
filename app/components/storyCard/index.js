@@ -29,7 +29,7 @@ class StoryCard extends Component {
           storyIndex={this.props.storyIndex}
           draggedTaskId={this.props.draggedTaskId}
           setDraggeTaskId={this.props.setDraggeTaskId}
-          moveTaskToStory={this.props.moveTaskToStory}
+          moveTask={this.props.moveTask}
         />
       </div>
     ));
@@ -79,7 +79,7 @@ StoryCard.propTypes = {
   draggedTaskId: PropTypes.string.isRequired,
   draggedStoryId: PropTypes.string.isRequired,
   addStoryTask: PropTypes.func.isRequired,
-  moveTaskToStory: PropTypes.func.isRequired,
+  moveTask: PropTypes.func.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
   setDraggeStoryId: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
@@ -92,20 +92,21 @@ const storyTarget = {
     const dragIndex = monitor.getItem().storyIndex;
     const hoverIndex = props.storyIndex;
     const dragId = monitor.getItem().story.id;
+    const isHoveredSelf = dragIndex === hoverIndex;
 
-    if (dragIndex === hoverIndex && !props.draggedStoryId.length) {
+    if (isHoveredSelf && !props.draggedStoryId.length) {
       props.setDraggeStoryId(dragId);
       return;
     }
 
-    if (props.draggedStoryId.length && dragIndex != hoverIndex) {
+    if (props.draggedStoryId.length && !isHoveredSelf) {
       props.moveStoryAtIndex(dragIndex, hoverIndex);
       monitor.getItem().storyIndex = hoverIndex;
     }
   },
 
   drop(props) {
-    props.setDraggeStoryId('');
+
   }
 };
 
@@ -123,6 +124,10 @@ const storySource = {
       storyIndex: props.storyIndex,
       story: props.story
     };
+  },
+
+  endDrag(props) {
+    props.setDraggeStoryId('');
   }
 };
 

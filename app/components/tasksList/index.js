@@ -14,6 +14,7 @@ class TasksList extends Component {
 
   getStoryTasks() {
     return this.props.tasks.map((task, idx) => {
+      // console.warn('TASK', task);
       return (
         <TaskItem
           key={`task_${task.id}`}
@@ -21,7 +22,7 @@ class TasksList extends Component {
           index={idx}
           storyIndex={this.props.storyIndex}
           draggedTaskId={this.props.draggedTaskId}
-          moveTaskToStory={this.props.moveTaskToStory}
+          moveTask={this.props.moveTask}
           setDraggeTaskId={this.props.setDraggeTaskId}
         />
       );
@@ -29,6 +30,7 @@ class TasksList extends Component {
   }
 
   render() {
+    // console.warn('TASKS', this.props.tasks);
     const tasks = this.getStoryTasks();
 
     return (
@@ -53,7 +55,7 @@ const styles = {
 };
 
 TasksList.propTypes = {
-  moveTaskToStory: PropTypes.func.isRequired,
+  moveTask: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
   storyIndex: PropTypes.number.isRequired,
   tasks: PropTypes.array.isRequired,

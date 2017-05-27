@@ -7,6 +7,10 @@ Array.prototype.move = function(from, to) {
     this.splice(to, 0, this.splice(from, 1)[0]);
 };
 
+Array.prototype.clone = function() {
+    return JSON.parse(JSON.stringify(this));
+};
+
 function getRandomColor() {
   const colorsCount = COLORS.length - 1;
   const randomColorNumber = Math.floor(Math.random() * (colorsCount - 0 + 1)) + 0;
@@ -24,10 +28,10 @@ function storeData(data) {
 export function addTask(storyIndex, taskDescription) {
   return (dispatch, getState) => {
     const randomColor = getRandomColor();
-    let stories = JSON.parse(JSON.stringify(getState().story.stories));
+    let stories = getState().story.stories.clone();
 
     stories[storyIndex].tasks.unshift({
-      id: Date.now(),
+      id: Date.now().toString(),
       description: taskDescription,
       color: randomColor,
       completed: false
@@ -47,22 +51,29 @@ export function setDraggeTaskId(taskId) {
 
 export function moveStoryAtIndex(storyIndex, newIndex) {
   return (dispatch, getState) => {
-
-    let stories = JSON.parse(JSON.stringify(getState().story.stories));
+    let stories = getState().story.stories.clone();
 
     stories.move(storyIndex, newIndex);
+
     return dispatch(storeData({
       stories
     }));
   };
 }
 
-export function moveTaskToStory(prevStoryIndex, nextStoryIndex, taskIndex) {
+export function moveTask(prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex) {
   return (dispatch, getState) => {
-    let stories = JSON.parse(JSON.stringify(getState().story.stories));
-    const task = stories[prevStoryIndex].tasks.splice(taskIndex, 1);
+    let stories = getState().story.stories.clone();
+    const isMovingInsideOneStory = prevStoryIndex === nextStoryIndex;
 
-    stories[nextStoryIndex].tasks.push(task[0]);
+    if (isMovingInsideOneStory) {
+      stories[prevStoryIndex].tasks.move(taskIndex, hoveredTaskIndex);
+    } else {
+      const task = stories[prevStoryIndex].tasks.splice(taskIndex, 1);
+
+      stories[nextStoryIndex].tasks.splice(hoveredTaskIndex, 0, task[0]);
+    }
+
     return dispatch(storeData({stories}));
   };
 }

@@ -26,7 +26,7 @@ class StoriesList extends Component {
           draggedTaskId={this.props.draggedTaskId}
           draggedStoryId={this.props.draggedStoryId}
           addStoryTask={this.props.addStoryTask}
-          moveTaskToStory={this.props.moveTaskToStory}
+          moveTask={this.props.moveTask}
           moveStoryAtIndex={this.props.moveStoryAtIndex}
           setDraggeTaskId={this.props.setDraggeTaskId}
           setDraggeStoryId={this.props.setDraggeStoryId}
@@ -61,7 +61,7 @@ const styles = {
 
 StoriesList.propTypes = {
   stories: PropTypes.array.isRequired,
-  moveTaskToStory: PropTypes.func.isRequired,
+  moveTask: PropTypes.func.isRequired,
   addStoryTask: PropTypes.func.isRequired,
   setDraggeStoryId: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
@@ -80,8 +80,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    moveTaskToStory: (prevStoryIndex, nextStoryIndex, taskIndex) => {
-      dispatch(StoryActions.moveTaskToStory(prevStoryIndex, nextStoryIndex, taskIndex));
+    moveTask: (prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex) => {
+      dispatch(StoryActions.moveTask(prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex));
     },
 
     addStoryTask: (storyIndex, taskDescription) => {
