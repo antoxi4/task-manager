@@ -16,6 +16,8 @@ class TaskItem extends Component {
       isColorPaletteVisible: false
     };
 
+    this.handleColorPaletteState = this.handleColorPaletteState.bind(this);
+    this.setNewColorForTask = this.setNewColorForTask.bind(this);
     this.renderColorPalette = this.renderColorPalette.bind(this);
     this.renderTaskTools = this.renderTaskTools.bind(this);
   }
@@ -27,16 +29,24 @@ class TaskItem extends Component {
           style={styles.deleteContainer}
           onClick={() => this.props.deleteTask(this.props.storyId, this.props.index)}
         />
-      <div onClick={() => this.setState({isColorPaletteVisible: !this.state.isColorPaletteVisible})} style={{display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <div style={{width: 16, height: 16, borderRadius: 8, backgroundColor: this.props.task.color}}/>
+        <div style={styles.colorPaletteContainer} onClick={this.handleColorPaletteState}>
+          <div style={{...styles.colorPaletteButtonIcon, ...{backgroundColor: this.props.task.color}}}/>
         </div>
       </div>
     );
   }
 
+  handleColorPaletteState() {
+    this.setState({isColorPaletteVisible: !this.state.isColorPaletteVisible});
+  }
+
+  setNewColorForTask(color) {
+    this.props.setTaskColor(this.props.storyId, this.props.index, color);
+  }
+
   renderColorPalette() {
     if (this.state.isColorPaletteVisible) {
-      return <ColorPalette marginTop={23} setColor={(color) => this.props.setTaskColor(this.props.storyId, this.props.index, color)}/>;
+      return <ColorPalette setColor={color => this.setNewColorForTask(color)}/>;
     }
 
     return null;
@@ -121,6 +131,19 @@ const styles = {
     backgroundSize: 16,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'
+  },
+
+  colorPaletteContainer: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  colorPaletteButtonIcon: {
+    width: 16,
+    height: 16,
+    borderRadius: 8
   }
 };
 
@@ -128,6 +151,7 @@ TaskItem.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
+  setTaskColor: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
   storyId: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,

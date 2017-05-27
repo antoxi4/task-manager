@@ -96,4 +96,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(DragDropContext(HTML5Backend), connect(mapStateToProps, mapDispatchToProps))(StoriesList);
+export default compose(
+  DragDropContext(HTML5Backend),
+  connect(mapStateToProps, mapDispatchToProps)
+)(StoriesList);
