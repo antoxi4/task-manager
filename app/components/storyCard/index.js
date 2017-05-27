@@ -43,7 +43,6 @@ const styles = {
   cardHeader: {
     display: 'flex',
     flexDirection: 'row',
-    minHeight: 45,
     height: 45
   },
 

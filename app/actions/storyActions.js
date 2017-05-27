@@ -1,26 +1,7 @@
 'use strict';
 
 import {STORE_STORY_DATA} from './actionTypes';
-import {COLORS} from '../constants';
-
-Array.prototype.move = function(from, to) {
-    this.splice(to, 0, this.splice(from, 1)[0]);
-};
-
-Array.prototype.clone = function() {
-    return JSON.parse(JSON.stringify(this));
-};
-
-function cloneObject(object) {
-  return JSON.parse(JSON.stringify(object));
-}
-
-function getRandomColor() {
-  const colorsCount = COLORS.length - 1;
-  const randomColorNumber = Math.floor(Math.random() * (colorsCount - 0 + 1)) + 0;
-
-  return COLORS[randomColorNumber];
-}
+import * as helper from '../helpers';
 
 function storeData(data) {
   return {
@@ -31,8 +12,8 @@ function storeData(data) {
 
 export function addTask(storyId, taskDescription) {
   return (dispatch, getState) => {
-    const randomColor = getRandomColor();
-    let tasks = cloneObject(getState().story.tasks);
+    const randomColor = helper.getRandomColor();
+    let tasks = helper.clone(getState().story.tasks);
 
     tasks[storyId].unshift({
       id: Date.now().toString(),
@@ -47,7 +28,7 @@ export function addTask(storyId, taskDescription) {
 
 export function deleteTask(storyId, taskIndex) {
   return (dispatch, getState) => {
-    let tasks = cloneObject(getState().story.tasks);
+    let tasks = helper.clone(getState().story.tasks);
 
     tasks[storyId].splice(taskIndex, 1);
 
@@ -58,11 +39,11 @@ export function deleteTask(storyId, taskIndex) {
 
 export function moveTask(prevStoryId, nextStoryId, taskIndex, hoveredTaskIndex) {
   return (dispatch, getState) => {
-    let tasks = cloneObject(getState().story.tasks);
+    let tasks = helper.clone(getState().story.tasks);
     const isMovingInsideOneStory = prevStoryId === nextStoryId;
 
     if (isMovingInsideOneStory) {
-      tasks[prevStoryId].move(taskIndex, hoveredTaskIndex);
+      helper.moveArrayElement(taskIndex, hoveredTaskIndex, tasks[prevStoryId]);
     } else {
       const task = tasks[prevStoryId].splice(taskIndex, 1);
 
@@ -83,9 +64,9 @@ export function setDraggeTaskId(taskId) {
 
 export function moveStoryAtIndex(storyIndex, newIndex) {
   return (dispatch, getState) => {
-    let stories = getState().story.stories.clone();
+    let stories = helper.clone(getState().story.stories);
 
-    stories.move(storyIndex, newIndex);
+    helper.moveArrayElement(storyIndex, newIndex, stories);
 
     return dispatch(storeData({stories}));
   };
