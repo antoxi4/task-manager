@@ -12,7 +12,6 @@ class Dashboard extends Component {
   render() {
     return (
       <div style={styles.mainContainer}>
-        <MenuBar />
         <StoriesList />
       </div>
     );

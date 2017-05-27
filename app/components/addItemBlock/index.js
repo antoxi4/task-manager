@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-class AddTask extends Component {
+class AddItemBlock extends Component {
   constructor(props) {
     super(props);
 
@@ -127,9 +127,9 @@ const styles = {
   }
 };
 
-AddTask.propTypes = {
+AddItemBlock.propTypes = {
   storyId: PropTypes.string.isRequired,
   addTask: PropTypes.func.isRequired
 };
 
-export default AddTask;
+export default AddItemBlock;

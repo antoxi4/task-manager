@@ -3,8 +3,8 @@
 
 export default {
   stories: [
-    {id: 'test', name: 'IDEAS/TASKS', color: '#4FC3F7'},
-    {id: 'test2', name: 'IDEAS/TASKS2', color: '#4FC3F7'},
+    {id: 'test', name: 'IDEAS/TASKS'},
+    {id: 'test2', name: 'IDEAS/TASKS2'},
   ],
   tasks: {
     test: [{id: 'test1', description: 'Do itkfjdsklgjlkfdjgklfdjgklfdjklgjfdlkgjklfdjgklfdjglkfdjlkgfdjlkgjfdlkgjfdlkgjfkldjglkfdjglfd', color: '#4FC3F7', completed: false}, {id: 'test15', description: 'Do it2', color: '#DCE775', completed: false}],

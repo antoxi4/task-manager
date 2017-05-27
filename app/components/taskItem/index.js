@@ -5,35 +5,59 @@ import {DragSource, DropTarget} from 'react-dnd';
 import {compose} from 'redux';
 import PropTypes from 'prop-types';
 import {DND_ITEMS} from '../../constants';
+import ColorPalette from '../colorPalette';
 
 class TaskItem extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isTaskHovered: false
+      isTaskHovered: false,
+      isColorPaletteVisible: false
     };
 
-    this.renderDeleteButton = this.renderDeleteButton.bind(this);
+    this.renderColorPalette = this.renderColorPalette.bind(this);
+    this.renderTaskTools = this.renderTaskTools.bind(this);
   }
 
-  renderDeleteButton() {
+  renderTaskTools() {
     return (
-      <div
-        style={styles.deleteContainer}
-        onClick={() => this.props.deleteTask(this.props.storyId, this.props.index)}
-      />
+      <div style={styles.taskTools}>
+        <div
+          style={styles.deleteContainer}
+          onClick={() => this.props.deleteTask(this.props.storyId, this.props.index)}
+        />
+      <div onClick={() => this.setState({isColorPaletteVisible: !this.state.isColorPaletteVisible})} style={{display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{width: 16, height: 16, borderRadius: 8, backgroundColor: this.props.task.color}}/>
+        </div>
+      </div>
     );
   }
 
+  renderColorPalette() {
+    if (this.state.isColorPaletteVisible) {
+      return <ColorPalette marginTop={23} setColor={(color) => this.props.setTaskColor(this.props.storyId, this.props.index, color)}/>;
+    }
+
+    return null;
+  }
+
   handleMouseEvent(isEnter) {
-    this.setState({isTaskHovered: isEnter});
+    if (isEnter) {
+      this.setState({isTaskHovered: isEnter});
+    } else {
+      this.setState({
+        isTaskHovered: isEnter,
+        isColorPaletteVisible: isEnter
+      });
+    }
   }
 
   render() {
     const {connectDragSource, connectDropTarget} = this.props;
     const isTaskDragged = this.props.draggedTaskId === this.props.task.id;
-    const deleteButton = this.state.isTaskHovered ? this.renderDeleteButton() : null;
+    const taskTools = this.state.isTaskHovered ? this.renderTaskTools() : null;
+    const colorPalette = this.renderColorPalette();
 
     return connectDropTarget(connectDragSource(
       <div
@@ -46,7 +70,8 @@ class TaskItem extends Component {
         <div style={styles.taskDescription}>
           {this.props.task.description}
         </div>
-        {deleteButton}
+        {taskTools}
+        {colorPalette}
       </div>
     ));
   }
@@ -60,11 +85,12 @@ const styles = {
     flexDirection: 'row',
     backgroundColor: '#fff',
     position: 'relative',
+    border: '1px solid #CFD8DC',
   },
 
   taskMarker: {
     display: 'flex',
-    width: 10
+    width: 5
   },
 
   taskDescription: {
@@ -78,15 +104,21 @@ const styles = {
     padding: '16px 35px 15px 14px'
   },
 
-  deleteContainer: {
+  taskTools: {
     display: 'flex',
     position: 'absolute',
+    flexDirection: 'column',
+    height: 60,
     top: 0,
     right: 0,
-    bottom: 0,
     width: 35,
+  },
+
+  deleteContainer: {
+    display: 'flex',
+    flex: 1,
     backgroundImage: 'url("/img/ic_close.png")',
-    backgroundSize: 15,
+    backgroundSize: 16,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'
   }

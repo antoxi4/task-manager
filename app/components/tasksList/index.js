@@ -25,6 +25,7 @@ class TasksList extends Component {
           storyIndex={this.props.storyIndex}
           draggedTaskId={this.props.draggedTaskId}
           moveTask={this.props.moveTask}
+          setTaskColor={this.props.setTaskColor}
           deleteTask={this.props.deleteTask}
           setDraggeTaskId={this.props.setDraggeTaskId}
         />
@@ -51,14 +52,14 @@ class TasksList extends Component {
 const styles = {
   taskListContainer: {
     color: '#455A64',
-    maxHeight: 350,
-    overflow: 'scroll'
+    maxHeight: 350
   }
 };
 
 TasksList.propTypes = {
   storyId: PropTypes.string.isRequired,
   moveTask: PropTypes.func.isRequired,
+  setTaskColor: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
   setDraggeTaskId: PropTypes.func.isRequired,
   storyIndex: PropTypes.number.isRequired,
@@ -85,6 +86,10 @@ const mapDispatchToProps = dispatch => {
 
     deleteTask: (storyId, taskIndex) => {
       dispatch(StoryActions.deleteTask(storyId, taskIndex));
+    },
+
+    setTaskColor: (storyId, taskIndex, color) => {
+      dispatch(StoryActions.setTaskColor(storyId, taskIndex, color));
     }
   };
 };

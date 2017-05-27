@@ -32,6 +32,15 @@ class StoriesList extends Component {
     });
   }
 
+  renderAddStoryCard() {
+    return (
+      <div style={styles.cardHeader}>
+        <div style={styles.cardName}>{this.props.story.name}</div>
+        <div style={styles.moreButton} className={'cardMoreButton'} />
+      </div>
+    );
+  }
+
   render() {
     const storiesList = this.getStoriesList();
 
@@ -49,8 +58,7 @@ const styles = {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 60,
-    paddingTop: 20,
+    paddingTop: '4%',
     paddingLeft: '5%',
     paddingRight: '5%'
   }

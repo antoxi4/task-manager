@@ -19,7 +19,7 @@ class StoryCard extends Component {
 
     return connectDropTarget(connectDragSource(
       <div style={{...styles.mainContainer, ...{opacity: isStoryDragged ? 0 : 1}}}>
-        <div style={{...styles.cardHeader, ...{backgroundColor: this.props.story.color}}}>
+        <div style={styles.cardHeader}>
           <div style={styles.cardName}>{this.props.story.name}</div>
           <div style={styles.moreButton} className={'cardMoreButton'} />
         </div>
@@ -43,7 +43,9 @@ const styles = {
   cardHeader: {
     display: 'flex',
     flexDirection: 'row',
-    height: 45
+    height: 45,
+    border: '1px solid #CFD8DC',
+    backgroundColor: '#263238'
   },
 
   cardName: {
