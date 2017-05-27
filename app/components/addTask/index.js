@@ -92,6 +92,7 @@ const styles = {
     marginTop: 10,
     position: 'relative',
     height: 40,
+    minHeight: 40,
     backgroundColor: '#fff'
   },
 

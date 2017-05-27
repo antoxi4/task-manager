@@ -50,9 +50,9 @@ class TasksList extends Component {
 
 const styles = {
   taskListContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    color: '#455A64'
+    color: '#455A64',
+    maxHeight: 350,
+    overflow: 'scroll'
   }
 };
 

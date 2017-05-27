@@ -37,9 +37,9 @@ class TaskItem extends Component {
 
     return connectDropTarget(connectDragSource(
       <div
-        className={'taskContainer'}
         onMouseLeave={() => this.handleMouseEvent(false)}
         onMouseEnter={() => this.handleMouseEvent(true)}
+        className={'taskContainer'}
         style={{...styles.taskContainer, ...{opacity: isTaskDragged ? 0 : 1}}}
       >
         <div style={{...styles.taskMarker, ...{backgroundColor: this.props.task.color}}}/>
@@ -59,12 +59,12 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: '#fff',
-    position: 'relative'
+    position: 'relative',
   },
 
   taskMarker: {
     display: 'flex',
-    width: 5
+    width: 10
   },
 
   taskDescription: {

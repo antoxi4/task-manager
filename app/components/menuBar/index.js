@@ -30,6 +30,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     height: 60,
+    zIndex: 20,
     backgroundColor: '#263238'
   },
   userIcon: {
