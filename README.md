@@ -1,4 +1,9 @@
-# Ring Labs Front End Test Application
+# Task Manager
+
+## Info
+
+This project was created as part of the test task in Ring Labs
+Live demo you can see by next url [Demo](http://139.59.215.102:8082)
 
 ## Getting Started
 
