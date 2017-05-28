@@ -18,11 +18,26 @@ export function addTask(storyId, taskDescription) {
     tasks[storyId].unshift({
       id: Date.now().toString(),
       description: taskDescription,
-      color: randomColor,
-      completed: false
+      color: randomColor
     });
 
     return dispatch(storeData({tasks}));
+  };
+}
+
+export function addStory(storyName) {
+  return (dispatch, getState) => {
+    const storyId = Date.now().toString();
+    let tasks = helper.clone(getState().story.tasks);
+    let stories = helper.clone(getState().story.stories);
+
+    tasks[storyId] = [];
+    stories.unshift({
+      id: storyId,
+      name: storyName,
+    });
+
+    return dispatch(storeData({stories, tasks}));
   };
 }
 

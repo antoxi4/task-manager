@@ -7,16 +7,17 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import {DragDropContext} from 'react-dnd';
 import PropTypes from 'prop-types';
 import StoryCard from '../storyCard';
+import AddStoryBlock from '../addStoryBlock';
 import {StoryActions} from '../../actions';
 
 class StoriesList extends Component {
   constructor(props) {
     super(props);
 
-    this.getStoriesList = this.getStoriesList.bind(this);
+    this.renderStories = this.renderStories.bind(this);
   }
 
-  getStoriesList() {
+  renderStories() {
     return this.props.stories.map((story, idx) => {
       return (
         <StoryCard
@@ -32,21 +33,13 @@ class StoriesList extends Component {
     });
   }
 
-  renderAddStoryCard() {
-    return (
-      <div style={styles.cardHeader}>
-        <div style={styles.cardName}>{this.props.story.name}</div>
-        <div style={styles.moreButton} className={'cardMoreButton'} />
-      </div>
-    );
-  }
-
   render() {
-    const storiesList = this.getStoriesList();
+    const stories = this.renderStories();
 
     return (
       <div style={styles.mainContainer}>
-        {storiesList}
+        <AddStoryBlock addStory={this.props.addStory} />
+        {stories}
       </div>
     );
   }
@@ -61,12 +54,37 @@ const styles = {
     paddingTop: '4%',
     paddingLeft: '5%',
     paddingRight: '5%'
+  },
+
+  addStoryButton: {
+    height: 45,
+    width: 45,
+    cursor: 'pointer',
+    border: '1px solid #CFD8DC',
+    marginRight: 10,
+    backgroundImage: 'url("/img/ic_add.png")',
+    backgroundSize: 25,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  },
+
+  addStoryWrapperStyle: {
+    width: 240,
+    height: 45,
+    marginRight: 10
+  },
+
+  addStoryInputStyle: {
+    fontSize: '10pt',
+    color: '#fff',
+    backgroundColor: '#263238'
   }
 };
 
 StoriesList.propTypes = {
   stories: PropTypes.array.isRequired,
   addTask: PropTypes.func.isRequired,
+  addStory: PropTypes.func.isRequired,
   setDraggeStoryId: PropTypes.func.isRequired,
   draggedStoryId: PropTypes.string.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
@@ -84,6 +102,10 @@ const mapDispatchToProps = dispatch => {
   return {
     addTask: (storyId, taskDescription) => {
       dispatch(StoryActions.addTask(storyId, taskDescription));
+    },
+
+    addStory: storyName => {
+      dispatch(StoryActions.addStory(storyName));
     },
 
     setDraggeStoryId: storyId => {

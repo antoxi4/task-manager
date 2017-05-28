@@ -6,11 +6,17 @@ import PropTypes from 'prop-types';
 import {DropTarget, DragSource} from 'react-dnd';
 import {DND_ITEMS} from '../../constants';
 import TasksList from '../tasksList';
-import AddTask from '../addTask';
+import AddItemBlock from '../addItemBlock';
 
 class StoryCard extends Component {
   constructor(props) {
     super(props);
+
+    this.addNewTask = this.addNewTask.bind(this);
+  }
+
+  addNewTask(taskDescription) {
+    this.props.addTask(this.props.story.id, taskDescription);
   }
 
   render() {
@@ -21,9 +27,14 @@ class StoryCard extends Component {
       <div style={{...styles.mainContainer, ...{opacity: isStoryDragged ? 0 : 1}}}>
         <div style={styles.cardHeader}>
           <div style={styles.cardName}>{this.props.story.name}</div>
-          <div style={styles.moreButton} className={'cardMoreButton'} />
+          <div style={styles.moreButton} className={'hoverGlow'} />
         </div>
-        <AddTask storyId={this.props.story.id} addTask={this.props.addTask} />
+        <AddItemBlock
+          confirmEvent={this.addNewTask}
+          wrapperStyle={styles.addTaskWrapperStyle}
+          inputPlaceHolder={'New Task...'}
+          inputClassName={'inputFocusStyle'}
+        />
         <TasksList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
       </div>
     ));
@@ -66,6 +77,10 @@ const styles = {
     backgroundRepeat: 'no-repeat',
     height: 45,
     backgroundImage: 'url("/img/ic_more.png")'
+  },
+
+  addTaskWrapperStyle: {
+    marginTop: 10
   }
 };
 

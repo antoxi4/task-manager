@@ -27,13 +27,22 @@ body {
   display: flex;
 }
 
-input[type=text]:focus, textarea:focus {
+.inputFocusStyle:focus {
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
   border: 1px solid rgba(81, 203, 238, 1);
 }
 
-.cardMoreButton:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+.whiteInputPlaceHolder::-webkit-input-placeholder {color:#fff;}
+.whiteInputPlaceHolder::-moz-placeholder          {color:#fff;}/* Firefox 19+ */
+.whiteInputPlaceHolder:-moz-placeholder           {color:#fff;}/* Firefox 18- */
+.whiteInputPlaceHolder:-ms-input-placeholder      {color:#fff;}
+
+.hoverGlow {
+  background-color: rgba(38, 50, 56, 1);
+}
+
+.hoverGlow:hover {
+  background-color: rgba(104, 112, 116, 1);
 }
 
 .text {

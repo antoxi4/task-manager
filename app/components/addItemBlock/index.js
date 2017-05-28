@@ -8,56 +8,63 @@ class AddItemBlock extends Component {
     super(props);
 
     this.state = {
-      taskDescription: ''
+      itemName: ''
     };
 
     this.confirmButtonIconURL = 'url("/img/ic_check.png")';
     this.dismissButtonIconURL = 'url("/img/ic_close.png")';
 
+    this.handleInputChanges = this.handleInputChanges.bind(this);
     this.renderTools = this.renderTools.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.confirmAddTask = this.confirmAddTask.bind(this);
-    this.dismissAddTask = this.dismissAddTask.bind(this);
+    this.confirmItem = this.confirmItem.bind(this);
+    this.dismissItem = this.dismissItem.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.autoFocus) {
+      this.refs.blockInput.focus();
+    }
   }
 
   handleKeyDown(e) {
-    const isTaskDescription = this.state.taskDescription.length;
+    const isItemName = this.state.itemName.length;
     const isEnterPressed = e.key === 'Enter';
     const isEscapePressed = e.key === 'Escape';
 
-    if (isEnterPressed && isTaskDescription) {
-      this.confirmAddTask();
+    if (isEnterPressed && isItemName) {
+      this.confirmItem();
     }
 
     if (isEscapePressed) {
-      this.dismissAddTask();
+      this.dismissItem();
     }
   }
 
-  confirmAddTask() {
-    const {taskDescription} = this.state;
+  confirmItem() {
+    const {itemName} = this.state;
 
-    this.setState({taskDescription: ''}, () => {
-      this.props.addTask(this.props.storyId, taskDescription);
+    this.setState({itemName: ''}, () => {
+      this.props.confirmEvent(itemName);
     });
   }
 
-  dismissAddTask() {
-    this.setState({taskDescription: ''});
+  dismissItem() {
+    this.setState({itemName: ''}, this.props.dismissEvent);
   }
 
   renderTools() {
     return (
-      <div style={styles.taskTools}>
+      <div style={styles.toolsContainer}>
         <div
-          onClick={this.confirmAddTask}
+          onClick={this.confirmItem}
           style={{
             ...styles.actionContainer,
             ...{backgroundImage: this.confirmButtonIconURL}
           }}
         />
         <div
-          onClick={this.dismissAddTask}
+          onClick={this.dismissItem}
           style={{
             ...styles.actionContainer,
             ...{backgroundImage: this.dismissButtonIconURL}
@@ -67,18 +74,24 @@ class AddItemBlock extends Component {
     );
   }
 
+  handleInputChanges(event) {
+    this.setState({itemName: event.target.value});
+  }
+
   render() {
-    const tools = this.state.taskDescription.length ? this.renderTools() : null;
+    const tools = this.state.itemName.length ? this.renderTools() : null;
 
     return (
-      <div style={styles.addTaskContainer}>
+      <div style={{...styles.addItemContainer, ...this.props.wrapperStyle}}>
         <input
           type={'text'}
-          style={styles.input}
-          placeholder={'New Task...'}
+          ref={'blockInput'}
+          style={{...styles.input, ...this.props.inputStyle}}
+          className={this.props.inputClassName}
+          placeholder={this.props.inputPlaceHolder}
           onKeyDown={this.handleKeyDown}
-          onChange={e => this.setState({taskDescription: e.target.value})}
-          value={this.state.taskDescription}
+          onChange={this.handleInputChanges}
+          value={this.state.itemName}
         />
         {tools}
       </div>
@@ -87,16 +100,14 @@ class AddItemBlock extends Component {
 }
 
 const styles = {
-  addTaskContainer: {
+  addItemContainer: {
     display: 'flex',
-    marginTop: 6,
     position: 'relative',
     height: 40,
-    backgroundColor: '#fff',
     border: '1px solid #CFD8DC'
   },
 
-  taskTools: {
+  toolsContainer: {
     display: 'flex',
     flexDirection: 'row',
     position: 'absolute',
@@ -128,8 +139,22 @@ const styles = {
 };
 
 AddItemBlock.propTypes = {
-  storyId: PropTypes.string.isRequired,
-  addTask: PropTypes.func.isRequired
+  autoFocus: PropTypes.bool,
+  wrapperStyle: PropTypes.object,
+  inputStyle: PropTypes.object,
+  inputClassName: PropTypes.string,
+  inputPlaceHolder: PropTypes.string.isRequired,
+  confirmEvent: PropTypes.func,
+  dismissEvent: PropTypes.func
+};
+
+AddItemBlock.defaultProps = {
+  autoFocus: false,
+  wrapperStyle: {},
+  inputStyle: {},
+  inputClassName: '',
+  confirmEvent: () => null,
+  dismissEvent: () => null
 };
 
 export default AddItemBlock;
