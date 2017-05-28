@@ -73,6 +73,16 @@ export function setTaskColor(storyId, taskIndex, color) {
   };
 }
 
+export function changeStoryName(storyIndex, storyName) {
+  return (dispatch, getState) => {
+    let stories = helper.clone(getState().story.stories);
+
+    stories[storyIndex].name = storyName;
+
+    return dispatch(storeData({stories}));
+  };
+}
+
 export function moveTask(prevStoryId, nextStoryId, taskIndex, hoveredTaskIndex) {
   return (dispatch, getState) => {
     let tasks = helper.clone(getState().story.tasks);

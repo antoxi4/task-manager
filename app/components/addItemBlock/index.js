@@ -9,7 +9,7 @@ class AddItemBlock extends Component {
 
     this.state = {
       itemName: this.props.defaultValue,
-      isMouseLeaveBlock: false
+      isMouseLeaveBlock: true
     };
 
     this.confirmButtonIconURL = 'url("/img/ic_check.png")';
@@ -68,6 +68,8 @@ class AddItemBlock extends Component {
     return (
       <div style={styles.toolsContainer}>
         <div
+          onMouseLeave={() => this.handleMouseEvent(true)}
+          onMouseEnter={() => this.handleMouseEvent(false)}
           onClick={this.confirmItem}
           style={{
             ...styles.actionContainer,
@@ -75,6 +77,8 @@ class AddItemBlock extends Component {
           }}
         />
         <div
+          onMouseLeave={() => this.handleMouseEvent(true)}
+          onMouseEnter={() => this.handleMouseEvent(false)}
           onClick={this.dismissItem}
           style={{
             ...styles.actionContainer,

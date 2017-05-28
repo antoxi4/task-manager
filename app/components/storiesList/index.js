@@ -29,6 +29,7 @@ class StoriesList extends Component {
           deleteStory={this.props.deleteStory}
           moveStoryAtIndex={this.props.moveStoryAtIndex}
           setDraggedStoryId={this.props.setDraggedStoryId}
+          changeStoryName={this.props.changeStoryName}
         />
       );
     });
@@ -78,6 +79,7 @@ StoriesList.propTypes = {
   setDraggedStoryId: PropTypes.func.isRequired,
   draggedStoryId: PropTypes.string.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
+  changeStoryName: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -108,6 +110,10 @@ const mapDispatchToProps = dispatch => {
 
     moveStoryAtIndex: (storyIndex, newIndex) => {
       dispatch(StoryActions.moveStoryAtIndex(storyIndex, newIndex));
+    },
+
+    changeStoryName: (storyIndex, storyName) => {
+      dispatch(StoryActions.changeStoryName(storyIndex, storyName));
     }
   };
 };

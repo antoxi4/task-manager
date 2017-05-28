@@ -15,10 +15,16 @@ class StoryCardHeader extends Component {
     this.renderEditableHeader = this.renderEditableHeader.bind(this);
     this.renderDefaultHeader = this.renderDefaultHeader.bind(this);
     this.setEditMode = this.setEditMode.bind(this);
+    this.setStoryName = this.setStoryName.bind(this);
   }
 
   setEditMode(isEditMode) {
     this.setState({isEditMode});
+  }
+
+  setStoryName(storyName) {
+    this.props.changeStoryName(storyName);
+    this.setEditMode(false);
   }
 
   renderEditableHeader() {
@@ -28,6 +34,7 @@ class StoryCardHeader extends Component {
         clearOnDismiss={false}
         clearOnConfirm={false}
         dismissEvent={() => this.setEditMode(false)}
+        confirmEvent={this.setStoryName}
         wrapperStyle={styles.editableHeaderWrapperStyle}
         defaultValue={this.props.storyName}
         inputStyle={styles.editableHeaderInputStyle}
@@ -101,6 +108,7 @@ const styles = {
 StoryCardHeader.propTypes = {
   storyName: PropTypes.string.isRequired,
   deleteStory: PropTypes.func.isRequired,
+  changeStoryName: PropTypes.func.isRequired
 };
 
 export default StoryCardHeader;

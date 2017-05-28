@@ -15,6 +15,7 @@ class StoryCard extends Component {
 
     this.addNewTask = this.addNewTask.bind(this);
     this.deleteStory = this.deleteStory.bind(this);
+    this.changeStoryName = this.changeStoryName.bind(this);
   }
 
   addNewTask(taskDescription) {
@@ -25,13 +26,21 @@ class StoryCard extends Component {
     this.props.deleteStory(this.props.storyIndex, this.props.story.id);
   }
 
+  changeStoryName(storyName) {
+    this.props.changeStoryName(this.props.storyIndex, storyName);
+  }
+
   render() {
     const {connectDropTarget, connectDragSource} = this.props;
     const isStoryDragged = this.props.story.id === this.props.draggedStoryId;
 
     return connectDropTarget(connectDragSource(
       <div style={{...styles.mainContainer, ...{opacity: isStoryDragged ? 0 : 1}}}>
-        <StoryCardHeader storyName={this.props.story.name} deleteStory={this.deleteStory}/>
+        <StoryCardHeader
+          changeStoryName={this.changeStoryName}
+          storyName={this.props.story.name}
+          deleteStory={this.deleteStory}
+        />
         <AddTaskBlock addNewTask={this.addNewTask}/>
         <TaskList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
       </div>
@@ -58,6 +67,7 @@ StoryCard.propTypes = {
   deleteStory: PropTypes.func.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
   setDraggedStoryId: PropTypes.func.isRequired,
+  changeStoryName: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired
 };

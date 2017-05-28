@@ -15,6 +15,7 @@ class AddStoryBlock extends Component {
     this.setAddStoryBlockState = this.setAddStoryBlockState.bind(this);
     this.renderAddStoryButton = this.renderAddStoryButton.bind(this);
     this.renderAddStoryBlock = this.renderAddStoryBlock.bind(this);
+    this.addStory = this.addStory.bind(this);
   }
 
   setAddStoryBlockState(state) {
@@ -31,6 +32,11 @@ class AddStoryBlock extends Component {
     );
   }
 
+  addStory(storyName) {
+    this.setAddStoryBlockState(false);
+    this.props.addStory(storyName);
+  }
+
   renderAddStoryBlock() {
     return (
       <AddItemBlock
@@ -39,7 +45,7 @@ class AddStoryBlock extends Component {
         wrapperStyle={styles.addStoryWrapperStyle}
         inputPlaceHolder={'New Story...'}
         inputStyle={styles.addStoryInputStyle}
-        confirmEvent={this.props.addStory}
+        confirmEvent={this.addStory}
         dismissEvent={() => this.setAddStoryBlockState(false)}
       />
     );
