@@ -14,6 +14,7 @@ class StoryCard extends Component {
 
     this.renderAddTaskBlock = this.renderAddTaskBlock.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
+    this.deleteSelf = this.deleteSelf.bind(this);
   }
 
   addNewTask(taskDescription) {
@@ -31,6 +32,10 @@ class StoryCard extends Component {
     );
   }
 
+  deleteSelf() {
+    this.props.deleteStory(this.props.storyIndex, this.props.story.id);
+  }
+
   render() {
     const {connectDropTarget, connectDragSource} = this.props;
     const isStoryDragged = this.props.story.id === this.props.draggedStoryId;
@@ -40,7 +45,7 @@ class StoryCard extends Component {
       <div style={{...styles.mainContainer, ...{opacity: isStoryDragged ? 0 : 1}}}>
         <div style={styles.cardHeader}>
           <div style={styles.cardName}>{this.props.story.name}</div>
-          <div style={styles.moreButton} className={'hoverGlow'} />
+          <div onClick={this.deleteSelf} style={styles.deleteButton} className={'hoverGlow'} />
         </div>
         {addStoryBlock}
         <TasksList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
@@ -76,7 +81,7 @@ const styles = {
     flex: 1
   },
 
-  moreButton: {
+  deleteButton: {
     display: 'flex',
     cursor: 'pointer',
     width: 45,
@@ -84,7 +89,7 @@ const styles = {
     backgroundSize: 25,
     backgroundRepeat: 'no-repeat',
     height: 45,
-    backgroundImage: 'url("/img/ic_more.png")'
+    backgroundImage: 'url("/img/ic_delete.png")'
   },
 
   addTaskWrapperStyle: {
@@ -97,6 +102,7 @@ StoryCard.propTypes = {
   storyIndex: PropTypes.number.isRequired,
   draggedStoryId: PropTypes.string.isRequired,
   addTask: PropTypes.func.isRequired,
+  deleteStory: PropTypes.func.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
   setDraggeStoryId: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,

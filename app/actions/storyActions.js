@@ -41,6 +41,18 @@ export function addStory(storyName) {
   };
 }
 
+export function deleteStory(storyIndex, storyId) {
+  return (dispatch, getState) => {
+    let tasks = helper.clone(getState().story.tasks);
+    let stories = helper.clone(getState().story.stories);
+
+    stories.splice(storyIndex, 1);
+    delete tasks[storyId];
+
+    return dispatch(storeData({stories, tasks}));
+  };
+}
+
 export function deleteTask(storyId, taskIndex) {
   return (dispatch, getState) => {
     let tasks = helper.clone(getState().story.tasks);

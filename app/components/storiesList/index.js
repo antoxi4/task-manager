@@ -26,6 +26,7 @@ class StoriesList extends Component {
           storyIndex={idx}
           draggedStoryId={this.props.draggedStoryId}
           addTask={this.props.addTask}
+          deleteStory={this.props.deleteStory}
           moveStoryAtIndex={this.props.moveStoryAtIndex}
           setDraggeStoryId={this.props.setDraggeStoryId}
         />
@@ -85,6 +86,7 @@ StoriesList.propTypes = {
   stories: PropTypes.array.isRequired,
   addTask: PropTypes.func.isRequired,
   addStory: PropTypes.func.isRequired,
+  deleteStory: PropTypes.func.isRequired,
   setDraggeStoryId: PropTypes.func.isRequired,
   draggedStoryId: PropTypes.string.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
@@ -106,6 +108,10 @@ const mapDispatchToProps = dispatch => {
 
     addStory: storyName => {
       dispatch(StoryActions.addStory(storyName));
+    },
+
+    deleteStory: (storyIndex, storyId) => {
+      dispatch(StoryActions.deleteStory(storyIndex, storyId));
     },
 
     setDraggeStoryId: storyId => {
