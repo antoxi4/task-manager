@@ -151,7 +151,7 @@ const styles = {
 TaskItem.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-  setDraggeTaskId: PropTypes.func.isRequired,
+  setDraggedTaskId: PropTypes.func.isRequired,
   setTaskColor: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
   storyId: PropTypes.string.isRequired,
@@ -170,7 +170,7 @@ const taskSource = {
   },
 
   endDrag(props) {
-    props.setDraggeTaskId('');
+    props.setDraggedTaskId('');
   }
 };
 
@@ -189,7 +189,7 @@ const taskTarget = {
     const isHoveredSelf = props.draggedTaskId === hoverTaskId;
 
     if (!props.draggedTaskId.length) {
-      props.setDraggeTaskId(dragTaskId);
+      props.setDraggedTaskId(dragTaskId);
       return;
     }
 

@@ -5,7 +5,7 @@ import {compose} from 'redux';
 import PropTypes from 'prop-types';
 import {DropTarget, DragSource} from 'react-dnd';
 import {DND_ITEMS} from '../../constants';
-import TasksList from '../tasksList';
+import TaskList from '../taskList';
 import AddItemBlock from '../addItemBlock';
 
 class StoryCard extends Component {
@@ -48,7 +48,7 @@ class StoryCard extends Component {
           <div onClick={this.deleteSelf} style={styles.deleteButton} className={'hoverGlow'} />
         </div>
         {addStoryBlock}
-        <TasksList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
+        <TaskList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
       </div>
     ));
   }
@@ -104,7 +104,7 @@ StoryCard.propTypes = {
   addTask: PropTypes.func.isRequired,
   deleteStory: PropTypes.func.isRequired,
   moveStoryAtIndex: PropTypes.func.isRequired,
-  setDraggeStoryId: PropTypes.func.isRequired,
+  setDraggedStoryId: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired
 };
@@ -117,7 +117,7 @@ const storyTarget = {
     const isHoveredSelf = dragIndex === hoverIndex;
 
     if (isHoveredSelf && !props.draggedStoryId.length) {
-      props.setDraggeStoryId(dragId);
+      props.setDraggedStoryId(dragId);
       return;
     }
 
@@ -145,7 +145,7 @@ const storySource = {
   },
 
   endDrag(props) {
-    props.setDraggeStoryId('');
+    props.setDraggedStoryId('');
   }
 };
 

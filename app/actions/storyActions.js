@@ -90,11 +90,11 @@ export function moveTask(prevStoryId, nextStoryId, taskIndex, hoveredTaskIndex) 
   };
 }
 
-export function setDraggeStoryId(storyId) {
+export function setDraggedStoryId(storyId) {
   return storeData({draggedStoryId: storyId});
 }
 
-export function setDraggeTaskId(taskId) {
+export function setDraggedTaskId(taskId) {
   return storeData({draggedTaskId: taskId});
 }
 

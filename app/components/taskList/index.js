@@ -2,11 +2,12 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import EmptyTaskList from '../emptyTaskList';
 import PropTypes from 'prop-types';
 import TaskItem from '../taskItem';
 import {StoryActions} from '../../actions';
 
-class TasksList extends Component {
+class TaskList extends Component {
   constructor(props) {
     super(props);
 
@@ -26,7 +27,7 @@ class TasksList extends Component {
           moveTask={this.props.moveTask}
           setTaskColor={this.props.setTaskColor}
           deleteTask={this.props.deleteTask}
-          setDraggeTaskId={this.props.setDraggeTaskId}
+          setDraggedTaskId={this.props.setDraggedTaskId}
         />
       );
     });
@@ -35,27 +36,31 @@ class TasksList extends Component {
   render() {
     const tasks = this.getStoryTasks();
 
-    return (
-      <div style={styles.taskListContainer}>
-        {tasks}
-      </div>
-    );
+    if (tasks.length) {
+      return (
+        <div style={styles.taskListContainer}>
+          {tasks}
+        </div>
+      );
+    }
+
+    return <EmptyTaskList storyId={this.props.storyId} moveTask={this.props.moveTask}/>;
   }
 }
 
 const styles = {
   taskListContainer: {
     color: '#455A64',
-    maxHeight: 350
+    flex: 1
   }
 };
 
-TasksList.propTypes = {
+TaskList.propTypes = {
   storyId: PropTypes.string.isRequired,
   moveTask: PropTypes.func.isRequired,
   setTaskColor: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
-  setDraggeTaskId: PropTypes.func.isRequired,
+  setDraggedTaskId: PropTypes.func.isRequired,
   storyIndex: PropTypes.number.isRequired,
   tasks: PropTypes.array.isRequired,
   draggedTaskId: PropTypes.string.isRequired
@@ -74,8 +79,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(StoryActions.moveTask(prevStoryIndex, nextStoryIndex, taskIndex, hoveredTaskIndex));
     },
 
-    setDraggeTaskId: taskId => {
-      dispatch(StoryActions.setDraggeTaskId(taskId));
+    setDraggedTaskId: taskId => {
+      dispatch(StoryActions.setDraggedTaskId(taskId));
     },
 
     deleteTask: (storyId, taskIndex) => {
@@ -88,4 +93,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TasksList);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);
