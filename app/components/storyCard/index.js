@@ -12,6 +12,7 @@ class StoryCard extends Component {
   constructor(props) {
     super(props);
 
+    this.renderAddTaskBlock = this.renderAddTaskBlock.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
   }
 
@@ -19,9 +20,21 @@ class StoryCard extends Component {
     this.props.addTask(this.props.story.id, taskDescription);
   }
 
+  renderAddTaskBlock() {
+    return (
+      <AddItemBlock
+        confirmEvent={this.addNewTask}
+        wrapperStyle={styles.addTaskWrapperStyle}
+        inputPlaceHolder={'New Task...'}
+        inputClassName={'inputFocusStyle'}
+      />
+    );
+  }
+
   render() {
     const {connectDropTarget, connectDragSource} = this.props;
     const isStoryDragged = this.props.story.id === this.props.draggedStoryId;
+    const addStoryBlock = this.renderAddTaskBlock();
 
     return connectDropTarget(connectDragSource(
       <div style={{...styles.mainContainer, ...{opacity: isStoryDragged ? 0 : 1}}}>
@@ -29,12 +42,7 @@ class StoryCard extends Component {
           <div style={styles.cardName}>{this.props.story.name}</div>
           <div style={styles.moreButton} className={'hoverGlow'} />
         </div>
-        <AddItemBlock
-          confirmEvent={this.addNewTask}
-          wrapperStyle={styles.addTaskWrapperStyle}
-          inputPlaceHolder={'New Task...'}
-          inputClassName={'inputFocusStyle'}
-        />
+        {addStoryBlock}
         <TasksList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
       </div>
     ));
