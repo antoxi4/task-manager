@@ -49,41 +49,6 @@ body {
   word-wrap: break-word;
 }
 
-.taskContainer {
-  margin-top: 8px;
-  min-height: 60px;
-}
-
-.example-enter {
-  margin-top: 0px;
-  min-height: 0px;
-  max-height: 0px;
-  overflow: hidden;
-}
-
-.example-enter.example-enter-active {
-  margin-top: 8px;
-  min-height: 60px;
-  max-height: 100px;
-  transition: 700ms;
-  overflow: hidden;
-}
-
-.example-leave {
-  margin-top: 8px;
-  min-height: 60px;
-  max-height: 100px;
-  overflow: hidden;
-}
-
-.example-leave.example-leave-active {
-  margin-top: 0px;
-  max-height: 0px;
-  min-height: 0px;
-  transition: 700ms;
-  overflow: hidden;
-}
-
 @media screen and (max-device-width: 800px) {
 
 }

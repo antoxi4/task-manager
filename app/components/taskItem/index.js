@@ -73,7 +73,6 @@ class TaskItem extends Component {
       <div
         onMouseLeave={() => this.handleMouseEvent(false)}
         onMouseEnter={() => this.handleMouseEvent(true)}
-        className={'taskContainer'}
         style={{...styles.taskContainer, ...{opacity: isTaskDragged ? 0 : 1}}}
       >
         <div style={{...styles.taskMarker, ...{backgroundColor: this.props.task.color}}}/>
@@ -91,6 +90,8 @@ const styles = {
   taskContainer: {
     cursor: 'pointer',
     userSelect: 'none',
+    marginTop: 8,
+    minHeight: 60,
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: '#fff',

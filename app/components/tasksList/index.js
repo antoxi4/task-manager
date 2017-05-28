@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import TaskItem from '../taskItem';
 import {StoryActions} from '../../actions';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class TasksList extends Component {
   constructor(props) {
@@ -37,14 +36,9 @@ class TasksList extends Component {
     const tasks = this.getStoryTasks();
 
     return (
-      <ReactCSSTransitionGroup
-        style={styles.taskListContainer}
-        transitionName="example"
-        transitionEnterTimeout={700}
-        transitionLeaveTimeout={700}
-      >
+      <div style={styles.taskListContainer}>
         {tasks}
-      </ReactCSSTransitionGroup>
+      </div>
     );
   }
 }
