@@ -18,4 +18,4 @@
 
 ## Configs
 
-- for change server port edit file **config/globals.js***
+- for change server port edit file **config/globals.js**
