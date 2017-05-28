@@ -7,6 +7,7 @@ import {DropTarget, DragSource} from 'react-dnd';
 import {DND_ITEMS} from '../../constants';
 import TaskList from '../taskList';
 import AddItemBlock from '../addItemBlock';
+import StoryCardHeader from '../storyCardHeader';
 
 class StoryCard extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class StoryCard extends Component {
 
     this.renderAddTaskBlock = this.renderAddTaskBlock.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
-    this.deleteSelf = this.deleteSelf.bind(this);
+    this.deleteStory = this.deleteStory.bind(this);
   }
 
   addNewTask(taskDescription) {
@@ -32,22 +33,19 @@ class StoryCard extends Component {
     );
   }
 
-  deleteSelf() {
+  deleteStory() {
     this.props.deleteStory(this.props.storyIndex, this.props.story.id);
   }
 
   render() {
     const {connectDropTarget, connectDragSource} = this.props;
     const isStoryDragged = this.props.story.id === this.props.draggedStoryId;
-    const addStoryBlock = this.renderAddTaskBlock();
+    const addTaskBlock = this.renderAddTaskBlock();
 
     return connectDropTarget(connectDragSource(
       <div style={{...styles.mainContainer, ...{opacity: isStoryDragged ? 0 : 1}}}>
-        <div style={styles.cardHeader}>
-          <div style={styles.cardName}>{this.props.story.name}</div>
-          <div onClick={this.deleteSelf} style={styles.deleteButton} className={'hoverGlow'} />
-        </div>
-        {addStoryBlock}
+        <StoryCardHeader storyName={this.props.story.name} deleteStory={this.deleteStory}/>
+        {addTaskBlock}
         <TaskList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
       </div>
     ));
@@ -62,34 +60,6 @@ const styles = {
     width: 240,
     flexDirection: 'column',
     minHeight: 220,
-  },
-
-  cardHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    height: 45,
-    border: '1px solid #CFD8DC',
-    backgroundColor: '#263238'
-  },
-
-  cardName: {
-    color: '#fff',
-    paddingLeft: 14,
-    alignItems: 'center',
-    fontSize: '10pt',
-    display: 'flex',
-    flex: 1
-  },
-
-  deleteButton: {
-    display: 'flex',
-    cursor: 'pointer',
-    width: 45,
-    backgroundPosition: 'center',
-    backgroundSize: 25,
-    backgroundRepeat: 'no-repeat',
-    height: 45,
-    backgroundImage: 'url("/img/ic_delete.png")'
   },
 
   addTaskWrapperStyle: {

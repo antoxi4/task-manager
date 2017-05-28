@@ -8,7 +8,7 @@ class AddItemBlock extends Component {
     super(props);
 
     this.state = {
-      itemName: ''
+      itemName: this.props.defaultValue
     };
 
     this.confirmButtonIconURL = 'url("/img/ic_check.png")';
@@ -44,13 +44,21 @@ class AddItemBlock extends Component {
   confirmItem() {
     const {itemName} = this.state;
 
-    this.setState({itemName: ''}, () => {
-      this.props.confirmEvent(itemName);
-    });
+    if (this.props.clearOnConfirm) {
+      return this.setState({itemName: ''}, () => {
+        this.props.confirmEvent(itemName);
+      });
+    }
+
+    this.props.confirmEvent(itemName);
   }
 
   dismissItem() {
-    this.setState({itemName: ''}, this.props.dismissEvent);
+    if (this.props.clearOnDismiss) {
+      return this.setState({itemName: ''}, this.props.dismissEvent);
+    }
+
+    this.props.dismissEvent();
   }
 
   renderTools() {
@@ -86,6 +94,7 @@ class AddItemBlock extends Component {
         <input
           type={'text'}
           ref={'blockInput'}
+          onBlur={this.dismissItem}
           style={{...styles.input, ...this.props.inputStyle}}
           className={this.props.inputClassName}
           placeholder={this.props.inputPlaceHolder}
@@ -139,6 +148,9 @@ const styles = {
 };
 
 AddItemBlock.propTypes = {
+  defaultValue: PropTypes.string,
+  clearOnDismiss: PropTypes.bool,
+  clearOnConfirm: PropTypes.bool,
   autoFocus: PropTypes.bool,
   wrapperStyle: PropTypes.object,
   inputStyle: PropTypes.object,
@@ -149,6 +161,9 @@ AddItemBlock.propTypes = {
 };
 
 AddItemBlock.defaultProps = {
+  clearOnDismiss: true,
+  clearOnConfirm: true,
+  defaultValue: '',
   autoFocus: false,
   wrapperStyle: {},
   inputStyle: {},

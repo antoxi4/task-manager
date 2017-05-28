@@ -67,18 +67,6 @@ const styles = {
     backgroundSize: 25,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'
-  },
-
-  addStoryWrapperStyle: {
-    width: 240,
-    height: 45,
-    marginRight: 10
-  },
-
-  addStoryInputStyle: {
-    fontSize: '10pt',
-    color: '#fff',
-    backgroundColor: '#263238'
   }
 };
 
