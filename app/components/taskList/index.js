@@ -34,17 +34,18 @@ class TaskList extends Component {
   }
 
   render() {
+    const listClassName = this.props.draggedTaskId.length ? 'higlightList' : '';
     const tasks = this.getStoryTasks();
 
     if (tasks.length) {
       return (
-        <div style={styles.taskListContainer}>
+        <div className={listClassName} style={styles.taskListContainer}>
           {tasks}
         </div>
       );
     }
 
-    return <EmptyTaskList storyId={this.props.storyId} moveTask={this.props.moveTask}/>;
+    return <EmptyTaskList className={listClassName} storyId={this.props.storyId} moveTask={this.props.moveTask}/>;
   }
 }
 

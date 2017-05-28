@@ -13,7 +13,9 @@ class EmptyTaskList extends Component {
   render() {
     const {connectDropTarget} = this.props;
 
-    return connectDropTarget(<div style={styles.emptyTaskListContainer}/>);
+    return connectDropTarget(
+      <div className={this.props.className} style={styles.emptyTaskListContainer}/>
+    );
   }
 }
 
@@ -25,7 +27,8 @@ const styles = {
 
 EmptyTaskList.propTypes = {
   storyId: PropTypes.string.isRequired,
-  connectDropTarget: PropTypes.func.isRequired
+  connectDropTarget: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired
 };
 
 const taskTarget = {
