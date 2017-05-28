@@ -8,7 +8,8 @@ class AddItemBlock extends Component {
     super(props);
 
     this.state = {
-      itemName: this.props.defaultValue
+      itemName: this.props.defaultValue,
+      isMouseLeaveBlock: false
     };
 
     this.confirmButtonIconURL = 'url("/img/ic_check.png")';
@@ -19,6 +20,8 @@ class AddItemBlock extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.confirmItem = this.confirmItem.bind(this);
     this.dismissItem = this.dismissItem.bind(this);
+    this.handleMouseEvent = this.handleMouseEvent.bind(this);
+    this.handleInputBlurEvent = this.handleInputBlurEvent.bind(this);
   }
 
   componentDidMount() {
@@ -82,19 +85,33 @@ class AddItemBlock extends Component {
     );
   }
 
+  handleInputBlurEvent() {
+    if (this.state.isMouseLeaveBlock) {
+      this.dismissItem();
+    }
+  }
+
   handleInputChanges(event) {
     this.setState({itemName: event.target.value});
+  }
+
+  handleMouseEvent(isMouseLeave) {
+    this.setState({isMouseLeaveBlock: isMouseLeave});
   }
 
   render() {
     const tools = this.state.itemName.length ? this.renderTools() : null;
 
     return (
-      <div style={{...styles.addItemContainer, ...this.props.wrapperStyle}}>
+      <div
+        onMouseLeave={() => this.handleMouseEvent(true)}
+        onMouseEnter={() => this.handleMouseEvent(false)}
+        style={{...styles.addItemContainer, ...this.props.wrapperStyle}}
+      >
         <input
           type={'text'}
           ref={'blockInput'}
-          onBlur={this.dismissItem}
+          onBlur={this.handleInputBlurEvent}
           style={{...styles.input, ...this.props.inputStyle}}
           className={this.props.inputClassName}
           placeholder={this.props.inputPlaceHolder}

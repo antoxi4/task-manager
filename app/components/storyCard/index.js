@@ -6,31 +6,19 @@ import PropTypes from 'prop-types';
 import {DropTarget, DragSource} from 'react-dnd';
 import {DND_ITEMS} from '../../constants';
 import TaskList from '../taskList';
-import AddItemBlock from '../addItemBlock';
 import StoryCardHeader from '../storyCardHeader';
+import AddTaskBlock from '../addTaskBlock';
 
 class StoryCard extends Component {
   constructor(props) {
     super(props);
 
-    this.renderAddTaskBlock = this.renderAddTaskBlock.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
     this.deleteStory = this.deleteStory.bind(this);
   }
 
   addNewTask(taskDescription) {
     this.props.addTask(this.props.story.id, taskDescription);
-  }
-
-  renderAddTaskBlock() {
-    return (
-      <AddItemBlock
-        confirmEvent={this.addNewTask}
-        wrapperStyle={styles.addTaskWrapperStyle}
-        inputPlaceHolder={'New Task...'}
-        inputClassName={'inputFocusStyle'}
-      />
-    );
   }
 
   deleteStory() {
@@ -40,12 +28,11 @@ class StoryCard extends Component {
   render() {
     const {connectDropTarget, connectDragSource} = this.props;
     const isStoryDragged = this.props.story.id === this.props.draggedStoryId;
-    const addTaskBlock = this.renderAddTaskBlock();
 
     return connectDropTarget(connectDragSource(
       <div style={{...styles.mainContainer, ...{opacity: isStoryDragged ? 0 : 1}}}>
         <StoryCardHeader storyName={this.props.story.name} deleteStory={this.deleteStory}/>
-        {addTaskBlock}
+        <AddTaskBlock addNewTask={this.addNewTask}/>
         <TaskList storyId={this.props.story.id} storyIndex={this.props.storyIndex} />
       </div>
     ));
@@ -59,11 +46,7 @@ const styles = {
     display: 'flex',
     width: 240,
     flexDirection: 'column',
-    minHeight: 220,
-  },
-
-  addTaskWrapperStyle: {
-    marginTop: 10
+    minHeight: 220
   }
 };
 
@@ -98,14 +81,6 @@ const storyTarget = {
   }
 };
 
-const storyCollectTarget = (connect, monitor) => {
-  return {
-    connectDropTarget: connect.dropTarget(),
-    canDrop: monitor.canDrop()
-  };
-};
-
-
 const storySource = {
   beginDrag(props) {
     return {
@@ -117,6 +92,13 @@ const storySource = {
   endDrag(props) {
     props.setDraggedStoryId('');
   }
+};
+
+const storyCollectTarget = (connect, monitor) => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    canDrop: monitor.canDrop()
+  };
 };
 
 const storyCollectSource = connect => {

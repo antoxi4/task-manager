@@ -46,14 +46,11 @@ class AddStoryBlock extends Component {
   }
 
   render() {
-    const addStoryBlock = this.renderAddStoryBlock();
-    const addStoryButton = this.renderAddStoryButton();
-
     if (this.state.isActiveAddStoryBlock) {
-      return addStoryBlock;
+      return this.renderAddStoryBlock();
     }
 
-    return addStoryButton;
+    return this.renderAddStoryButton();
   }
 }
 

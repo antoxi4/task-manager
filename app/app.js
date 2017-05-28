@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component} from 'react';
-import DashBoard from './components/dashboard';
+import StoriesList from './components/storiesList';
 import {
   Redirect,
   Route
@@ -16,7 +16,7 @@ class App extends Component {
     return (
       <div style={styles.mainContainer}>
         <Redirect to={'/dashboard'}/>
-        <Route path={'/dashboard'} component={DashBoard}/>
+        <Route path={'/dashboard'} component={StoriesList}/>
       </div>
     );
   }
