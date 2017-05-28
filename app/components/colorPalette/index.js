@@ -1,38 +1,22 @@
 'use strict';
 
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {COLORS} from '../../constants';
 
-class ColorPalette extends Component {
-  constructor(props) {
-    super(props);
-
-    this.renderColors = this.renderColors.bind(this);
-  }
-
-  renderColors() {
-    return COLORS.map(color => {
-      return (
+let ColorPalette = props => (
+  <div style={styles.paletteContainer}>
+    {
+      COLORS.map(color => (
         <div
-          key={color}
-          onClick={() => this.props.setColor(color)}
+          key={`color_${color}`}
+          onClick={() => props.setColor(color)}
           style={{...styles.colorContainer, ...{backgroundColor: color}}}
         />
-      );
-    });
-  }
-
-  render() {
-    const colors = this.renderColors();
-
-    return (
-      <div style={styles.paletteContainer}>
-        {colors}
-      </div>
-    );
-  }
-}
+      ))
+    }
+  </div>
+);
 
 const styles = {
   paletteContainer: {
