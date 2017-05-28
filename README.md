@@ -14,3 +14,8 @@
 - [webpack](https://webpack.js.org/)
 - [ESLint](http://eslint.org/)
 - [REACT ROUTER](https://reacttraining.com/react-router/)
+- [REACT DnD](http://react-dnd.github.io/react-dnd/)
+
+## Configs
+
+- for change server port edit file **config/globals.js***
