@@ -3,12 +3,19 @@
 ## Info
 
 This project was created as part of the test task in Ring Labs.
-Live demo you can see by next url [Demo](http://139.59.215.102:8082)
+Demo Application located at URL [Demo](http://139.59.215.102:8082)
 
-## Getting Started
+## Requirements
 
-- first you need run command **npm i** in repository folder.
-- for start server run command **npm start**
+- Node.js v6.9.2 +
+
+## Installation
+
+- **npm i**
+
+## Run Application
+
+- **npm start**
 
 ## Used Libraries, Frameworks
 
@@ -23,4 +30,4 @@ Live demo you can see by next url [Demo](http://139.59.215.102:8082)
 
 ## Configs
 
-- for change server port edit file **config/globals.js**
+- You can change server port in file **config/globals.js**
