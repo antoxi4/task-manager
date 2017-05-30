@@ -85,8 +85,7 @@ StoriesList.propTypes = {
 const mapStateToProps = state => {
   return {
     stories: state.story.stories,
-    draggedStoryId: state.story.draggedStoryId,
-    draggedTaskId: state.story.draggedTaskId
+    draggedStoryId: state.story.draggedStoryId
   };
 };
 
